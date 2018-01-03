@@ -17,7 +17,7 @@ public class ClassifyResult {
 
     @Override
     public String toString() {
-        return "ClassifyResult{" +
+        return "{" +
                 "confidence=" + confidence +
                 ", name='" + name + '\'' +
                 '}';

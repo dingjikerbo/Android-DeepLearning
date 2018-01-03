@@ -7,6 +7,7 @@ import android.graphics.YuvImage;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.flurgle.camerakit.CameraListener;
 import com.flurgle.camerakit.CameraView;
@@ -31,6 +32,8 @@ public class MainActivity extends Activity {
 
     private ImageClassifier mClassifier;
 
+    private TextView mTvResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,17 +41,15 @@ public class MainActivity extends Activity {
 
         mClassifier = new ImageClassifier(getAssets(), MODEL_FILE, LABEL_FILE, INPUT_SIZE, IMAGE_MEAN, IMAGE_STD, INPUT_NAME, OUTPUT_NAME);
 
+        mTvResult = findViewById(R.id.result);
         mCamera = findViewById(R.id.camera);
         mCamera.setCameraListener(new CameraListener() {
             @Override
             public void onPictureTaken(byte[] jpeg) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length);
-
                 bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false);
-
                 List<ClassifyResult> results = mClassifier.recognizeImage(bitmap);
-
-                Log.v("bush", results.toString());
+                mTvResult.setText(results.toString());
             }
         });
 

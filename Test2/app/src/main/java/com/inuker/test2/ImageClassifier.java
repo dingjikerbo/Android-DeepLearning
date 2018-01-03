@@ -31,13 +31,14 @@ public class ImageClassifier {
     private float[] mFloatValues;
 
     /**
-     * 输入图片是InputSize * InputSize的
+     * 输入图片是InputSize * InputSize * 3的
      */
     private int mInputSize;
 
     /**
      * 关于IMAGE_MEAN和IMAGE_STD的解释可参考
      * https://github.com/googlecodelabs/tensorflow-for-poets-2/issues/2
+     * https://stats.stackexchange.com/questions/211436/why-do-we-normalize-images-by-subtracting-the-datasets-image-mean-and-not-the-c
      * 大意是这和网络相关，用于将输入归一化到某个区间内
      */
     private int mImageMean;
@@ -61,12 +62,11 @@ public class ImageClassifier {
         mImageMean = imageMean;
         mImageStd = imageStd;
 
-        // Pre-allocate buffers.
         mOutputNames = new String[]{outputName};
         mIntValues = new int[inputSize * inputSize];
         mFloatValues = new float[inputSize * inputSize * 3];
 
-        // The shape of the output is [N, NUM_CLASSES], where N is the batch size.
+        // numClasses为输出结果的个数，每个结果对应一个概率
         int numClasses = (int) mTensorflow.graph().operation(outputName).output(0).shape().size(1);
         mOutputs = new float[numClasses];
     }
@@ -100,6 +100,7 @@ public class ImageClassifier {
         bitmap.getPixels(mIntValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
         for (int i = 0; i < mIntValues.length; ++i) {
             final int val = mIntValues[i];
+            // 对图片进行标准化处理
             mFloatValues[i * 3 + 0] = (((val >> 16) & 0xFF) - mImageMean) / mImageStd;
             mFloatValues[i * 3 + 1] = (((val >> 8) & 0xFF) - mImageMean) / mImageStd;
             mFloatValues[i * 3 + 2] = ((val & 0xFF) - mImageMean) / mImageStd;

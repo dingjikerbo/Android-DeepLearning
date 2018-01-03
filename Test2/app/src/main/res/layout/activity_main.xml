@@ -7,16 +7,26 @@
 
     <com.flurgle.camerakit.CameraView
         android:id="@+id/camera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="224dp"
+        android:layout_height="224dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:adjustViewBounds="true" />
 
     <Button
         android:id="@+id/detect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Detect"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="Detect" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/camera"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

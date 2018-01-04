@@ -144,6 +144,10 @@ public class DrawView extends View {
         reset();
     }
 
+    public Bitmap getBitmap() {
+        return mOffscreenBitmap;
+    }
+
     private void releaseBitmap() {
         if (mOffscreenBitmap != null) {
             mOffscreenBitmap.recycle();

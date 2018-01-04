@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.inuker.test3.view.DrawModel;
@@ -40,11 +41,14 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
     private ImageClassifier mClassifier;
 
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mImageView = findViewById(R.id.image);
 
         mModel = new DrawModel(PIXEL_WIDTH, PIXEL_WIDTH);
 
@@ -65,6 +69,15 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             @Override
             public void onClick(View v) {
                 onClearClicked();
+            }
+        });
+
+        View save = findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mDrawView.getBitmap();
             }
         });
 
@@ -147,6 +160,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     }
 
     private void onDetectClicked() {
+        mImageView.setImageBitmap(mDrawView.getBitmap());
+
         float pixels[] = mDrawView.getPixelData();
 
         final List<ClassifyResult> results = mClassifier.recognizeImage(pixels);

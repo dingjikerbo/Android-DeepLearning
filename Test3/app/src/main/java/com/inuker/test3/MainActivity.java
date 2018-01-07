@@ -72,15 +72,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             }
         });
 
-        View save = findViewById(R.id.save);
-        save.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                mDrawView.getBitmap();
-            }
-        });
-
         mResultText = (TextView) findViewById(R.id.textResult);
 
         initTensorFlowAndLoadModel();
